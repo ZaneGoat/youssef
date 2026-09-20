@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - SportsField</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="{{ url_for('client.index') }}" class="logo">SportsField</a>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('client.index') }}">Home</a></li>
+                    {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                    {% else %}
+                    {% if current_user.is_admin() %}
+                    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin.manage_terrains') }}">Terrains</a></li>
+                    <li><a href="{{ url_for('admin.manage_reservations') }}">Reservations</a></li>
+                    <li><a href="{{ url_for('admin.manage_clients') }}">Clients</a></li>
+                    {% endif %}
+                    {% if not current_user.is_admin() %}
+                    <li><a href="{{ url_for('client.my_reservations') }}">My Reservations</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('client.profile') }}">Profile</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flashes">
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 SportsField Management. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

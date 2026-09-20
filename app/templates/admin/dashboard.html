@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Reservations</h3>
+            <p class="stat-number">{{ total_reservations }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+            <p class="stat-number">{{ "%.2f"|format(total_revenue) }} DH</p>
+        </div>
+        <div class="stat-card">
+            <h3>Available Terrains</h3>
+            <p class="stat-number">{{ available_terrains }}</p>
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-buttons">
+            <a href="{{ url_for('admin.manage_terrains') }}" class="btn">Manage Terrains</a>
+            <a href="{{ url_for('admin.manage_reservations') }}" class="btn">Manage Reservations</a>
+            <a href="{{ url_for('admin.manage_clients') }}" class="btn">Manage Clients</a>
+        </div>
+    </div>
+
+    <div class="upcoming-reservations">
+        <h2>Pending Reservations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Terrain</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in upcoming_reservations %}
+                <tr>
+                    <td>{{ res.id }}</td>
+                    <td>{{ res.author.username }}</td>
+                    <td>{{ res.terrain.name }}</td>
+                    <td>{{ res.date }}</td>
+                    <td><span class="status {{ res.status }}">{{ res.status.capitalize() }}</span></td>
+                    <td>
+                        <form action="{{ url_for('admin.confirm_reservation', id=res.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-small">Confirm</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6">No pending reservations.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

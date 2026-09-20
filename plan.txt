@@ -1,0 +1,43 @@
+ Key Highlights:
+   * Dual-Role Dashboard: Custom views for Admins (revenue stats, terrain management) and Clients (booking history,
+     terrain browsing).
+   * Modern UI: A professional sporty palette (Green/Blue) with a responsive grid layout.
+   * Interactive Booking: A custom calendar interface to visualize available time slots.
+   * Robust Backend: SQLite for data storage, role-based access control, and secure authentication.
+
+  ---
+
+  Implementation Plan
+
+  Sports Field Management Application Plan
+
+  Objective
+  Build a functional web application using Flask and Jinja2 to manage sports field reservations. The app will feature
+  two main user roles: Admin (dashboard, management) and Client (browsing, booking).
+
+  Visual/UX Strategy
+   - Aesthetic: Modern, clean, and professional.
+   - Palette:
+     - Primary: #2ecc71 (Sporty Green)
+     - Secondary: #3498db (Professional Blue)
+     - Neutral: #f4f7f6 (Light Background), #2c3e50 (Dark Text)
+   - Layout: Responsive Flexbox/Grid. Sidebar navigation for Admin, Top-bar for Clients.
+   - Components: Card-based terrain browsing, tabular data for management, and a custom CSS/JS calendar for slot
+     selection.
+
+  Data Model (SQLite)
+   - User: id, username, email, password_hash, role ('admin', 'client')
+   - Terrain: id, name, type, description, hourly_rate, image_url
+   - Reservation: id, user_id, terrain_id, date, start_time, end_time, status, total_price
+
+  System Architecture
+   - Framework: Flask
+   - Extensions: Flask-SQLAlchemy, Flask-Login, Flask-Migrate
+   - Structure: Modular blueprints for Auth, Admin, and Client routes.
+
+  Implementation Steps
+   1. Foundation: Project structure, models, and database initialization.
+   2. Auth & Core UI: Secure login/register and the modern base layout.
+   3. Admin Suite: Terrain CRUD and reservation management dashboard.
+   4. Client Booking: Terrain discovery and the interactive reservation calendar.
+   5. Polishing: Revenue stats, form validation, and responsive design checks.

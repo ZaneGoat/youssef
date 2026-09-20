@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{{ title }}</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label }}<br>
+            {{ form.name() }}
+            {% for error in form.name.errors %}
+            <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.terrain_type.label }}<br>
+            {{ form.terrain_type() }}
+            {% for error in form.terrain_type.errors %}
+            <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.description.label }}<br>
+            {{ form.description(rows=4) }}
+            {% for error in form.description.errors %}
+            <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.hourly_rate.label }}<br>
+            {{ form.hourly_rate() }}
+            {% for error in form.hourly_rate.errors %}
+            <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.image_url.label }}<br>
+            {{ form.image_url() }}
+            {% for error in form.image_url.errors %}
+            <span class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <p>{{ form.submit(class="btn") }}</p>
+    </form>
+    <a href="{{ url_for('admin.manage_terrains') }}">Back to List</a>
+</div>
+{% endblock %}

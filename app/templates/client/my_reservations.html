@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="client-section">
+    <h1>My Reservations</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Terrain</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in reservations %}
+            <tr>
+                <td>{{ res.terrain.name }}</td>
+                <td>{{ res.date }}</td>
+                <td>{{ res.start_time.strftime('%H:%M') }} - {{ res.end_time.strftime('%H:%M') }}</td>
+                <td>{{ "%.2f"|format(res.total_price) }} DH</td>
+                <td><span class="status {{ res.status }}">{{ res.status.capitalize() }}</span></td>
+                <td>
+                    {% if res.status == 'pending' %}
+                    <form action="{{ url_for('client.cancel_reservation', id=res.id) }}" method="post" onsubmit="return confirm('Cancel this reservation?');">
+                        <button type="submit" class="btn btn-small btn-danger">Cancel</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">You have no reservations yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

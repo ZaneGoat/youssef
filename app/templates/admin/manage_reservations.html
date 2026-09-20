@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-section">
+    <h1>Manage Reservations</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Terrain</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in reservations %}
+            <tr>
+                <td>{{ res.id }}</td>
+                <td>{{ res.author.username }}</td>
+                <td>{{ res.terrain.name }}</td>
+                <td>{{ res.date }}</td>
+                <td>{{ res.start_time.strftime('%H:%M') }} - {{ res.end_time.strftime('%H:%M') }}</td>
+                <td>{{ "%.2f"|format(res.total_price) }} DH</td>
+                <td><span class="status {{ res.status }}">{{ res.status.capitalize() }}</span></td>
+                <td>
+                    {% if res.status == 'pending' %}
+                    <form action="{{ url_for('admin.confirm_reservation', id=res.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-small">Confirm</button>
+                    </form>
+                    <form action="{{ url_for('admin.cancel_reservation', id=res.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-small btn-danger">Cancel</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="8">No reservations found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

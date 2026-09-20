@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Find and Reserve Your Favorite Sports Field</h1>
+    <p>Easy, fast, and reliable booking system.</p>
+</section>
+
+<div class="terrain-grid">
+    {% for terrain in terrains %}
+    <div class="terrain-card">
+        {% if terrain.image_url %}
+        <img src="{{ url_for('static', filename='images/terrains/' + terrain.image_url) }}" alt="{{ terrain.name }}">
+        {% else %}
+        <img src="https://via.placeholder.com/300x200?text={{ terrain.name }}" alt="{{ terrain.name }}">
+        {% endif %}
+        <div class="terrain-info">
+            <h3>{{ terrain.name }}</h3>
+            <p>{{ terrain.terrain_type.capitalize() }}</p>
+            <p class="price">{{ terrain.hourly_rate }} DH/hour</p>
+            <a href="{{ url_for('client.terrain_detail', id=terrain.id) }}" class="btn">View Details</a>
+        </div>
+    </div>
+    {% else %}
+    <p>No terrains available at the moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}
